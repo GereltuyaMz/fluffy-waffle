@@ -8,63 +8,74 @@ import {
   Platform
 } from "react-native";
 import { Block, Text, theme } from "galio-framework";
-
+import { useNavigation } from '@react-navigation/core'
 import { Button } from "../components";
 import { Images, argonTheme } from "../constants";
 import { HeaderHeight } from "../constants/utils";
 import FeatherIcons from 'react-native-vector-icons/Feather';
+import { auth } from '../firebaseConfig';
+import { signOut } from 'firebase/auth';
 
 const { width, height } = Dimensions.get("screen");
 
 const thumbMeasure = (width - 48 - 32) / 3;
 
-class Profile extends React.Component {
-  render() {
-    return (
-      <Block flex style={styles.profile}>
-        <Block flex>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            style={{ width, marginTop: '25%' }}
-          >
-            <Block flex style={styles.profileCard}>
-              <Block middle style={styles.avatarContainer}>
-                <Image
-                  source={{ uri: Images.ProfilePicture }}
-                  style={styles.avatar}
-                />
+const Profile = () => {
+  const navigation = useNavigation()
+
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        navigation.navigate("Register")
+        console.log('sign out');
+      })
+      .catch(error => alert(error.message))
+  }
+  return (
+    <Block flex style={styles.profile}>
+      <Block flex>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{ width, marginTop: '25%' }}
+        >
+          <Block flex style={styles.profileCard}>
+            <Block middle style={styles.avatarContainer}>
+              <Image
+                source={{ uri: Images.ProfilePicture }}
+                style={styles.avatar}
+              />
+            </Block>
+            <Block style={styles.userInfo}>
+              <Block style={styles.divider}>
+                <FeatherIcons name="user" size={30} />
+                <Text muted>Jessica Jones</Text>
               </Block>
-              <Block style={styles.userInfo}>
-                <Block style={styles.divider}>
-                  <FeatherIcons name="user" size={30} />
-                  <Text muted>Jessica Jones</Text>
-                </Block>
-                <Block style={styles.divider}>
-                  <FeatherIcons name="calendar" size={30} />
-                  <Text muted>1996/03/18</Text>
-                </Block>
-                <Block style={styles.divider}>
-                  <FeatherIcons name="smartphone" size={30} />
-                  <Text muted>99663049</Text>
-                </Block>
-                <Block style={styles.divider}>
-                  <FeatherIcons name="mail" size={30} />
-                  <Text muted>gegiimz96@gmail.com</Text>
-                </Block>
-                <Block style={styles.divider}>
-                  <FeatherIcons name="briefcase" size={30} />
-                  <Text muted>Accountant</Text>
-                </Block>
+              <Block style={styles.divider}>
+                <FeatherIcons name="calendar" size={30} />
+                <Text muted>1996/03/18</Text>
               </Block>
-              <Block middle>
-                <Button color="warning">Update</Button>
+              <Block style={styles.divider}>
+                <FeatherIcons name="smartphone" size={30} />
+                <Text muted>99663049</Text>
+              </Block>
+              <Block style={styles.divider}>
+                <FeatherIcons name="mail" size={30} />
+                <Text muted>gegiimz96@gmail.com</Text>
+              </Block>
+              <Block style={styles.divider}>
+                <FeatherIcons name="briefcase" size={30} />
+                <Text muted>Accountant</Text>
               </Block>
             </Block>
-          </ScrollView>
-        </Block>
+            <Block middle row>
+              <Button color="warning">Update</Button>
+              <Button color="info" onPress={handleSignOut}>Sign Out</Button>
+            </Block>
+          </Block>
+        </ScrollView>
       </Block>
-    );
-  }
+    </Block>
+  )
 }
 
 const styles = StyleSheet.create({

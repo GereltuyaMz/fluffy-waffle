@@ -8,8 +8,10 @@ import Profile from "../screens/Profile";
 import Map from "../screens/Map";
 import Notification from "../screens/Notification";
 import NotificationDetail from "../screens/NotificationDetail";
+import Attendance from "../screens/Attendance";
 import React from "react";
 import Register from "../screens/Register";
+import Request from "../screens/Request";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -99,6 +101,14 @@ function HomeStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Attendance"
+        component={Attendance}
+      />
+      <Stack.Screen
+        name="Requests"
+        component={Request}
+      />
+      <Stack.Screen
         name="Notification"
         component={Notification}
         options={{
@@ -129,7 +139,7 @@ function HomeStack() {
 function BottomStack() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { paddingBottom: 6, paddingTop: 5, height: 60 } }} >
-      <Tab.Screen name="Home" component={HomeStack} options={{
+      <Tab.Screen name="HomeTab" component={HomeStack} options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({ color, size }) => (
           <AntDesignIcons name="home" color={color} size={size} />
