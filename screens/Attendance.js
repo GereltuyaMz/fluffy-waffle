@@ -1,10 +1,7 @@
 import React from 'react'
-import { StyleSheet, Dimensions, ScrollView, FlatList, View, Alert, ImageBackground, Image } from 'react-native';
-import { Block, theme, Text, Button } from 'galio-framework';
-import FeatherIcons from 'react-native-vector-icons/Feather';
+import { StyleSheet, View, ImageBackground } from 'react-native';
+import { Block, Text } from 'galio-framework';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-
-const { width } = Dimensions.get('screen');
 
 const Attendance = () => {
   return (

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Image } from "react-native";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useFonts } from '@use-expo/font';
 import { Asset } from "expo-asset";
 import { Block, GalioProvider } from "galio-framework";
@@ -53,13 +54,15 @@ export default props => {
 
   if (fontsLoaded) {
     return (
-      <NavigationContainer>
-        <GalioProvider theme={argonTheme}>
-          <Block flex>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <GalioProvider theme={argonTheme}>
+            {/* <Block flex> */}
             <Screens />
-          </Block>
-        </GalioProvider>
-      </NavigationContainer>
+            {/* </Block> */}
+          </GalioProvider>
+        </NavigationContainer>
+      </SafeAreaProvider>
     );
   } else {
     return null
