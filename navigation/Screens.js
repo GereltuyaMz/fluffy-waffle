@@ -1,6 +1,8 @@
 import { Animated, Dimensions, Easing } from "react-native";
 // header for screens
 import { Header, Icon } from "../components";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 // screens
 import Home from "../screens/Home";
@@ -11,7 +13,9 @@ import NotificationDetail from "../screens/NotificationDetail";
 import Attendance from "../screens/Attendance";
 import React from "react";
 import Register from "../screens/Register";
-import Request from "../screens/Request";
+import All from "../screens/request/All";
+import Pending from "../screens/request/Pending";
+import Decline from "../screens/request/Decline";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -20,6 +24,7 @@ import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const TopTab = createMaterialTopTabNavigator();
 
 function MapStack(props) {
   return (
@@ -104,10 +109,14 @@ function HomeStack() {
         name="Attendance"
         component={Attendance}
       />
-      <Stack.Screen
-        name="Requests"
-        component={Request}
-      />
+      <Stack.Screen name="Request" component={TopStack} options={{
+        header: ({ navigation, scene }) => (
+          <Header
+            title="Request"
+            navigation={navigation}
+          />
+        ),
+      }} />
       <Stack.Screen
         name="Notification"
         component={Notification}
@@ -158,5 +167,29 @@ function BottomStack() {
         ),
       }} />
     </Tab.Navigator>
+  )
+}
+
+function TopStack() {
+  return (
+    <TopTab.Navigator
+      initialRouteName="All"
+    >
+      <TopTab.Screen
+        name="All"
+        component={All}
+        options={{ tabBarLabel: 'All' }}
+      />
+      <TopTab.Screen
+        name="Pending"
+        component={Pending}
+        options={{ tabBarLabel: 'Pending' }}
+      />
+      <TopTab.Screen
+        name="Decline"
+        component={Decline}
+        options={{ tabBarLabel: 'Decline' }}
+      />
+    </TopTab.Navigator>
   )
 }

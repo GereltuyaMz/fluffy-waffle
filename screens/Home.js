@@ -1,18 +1,17 @@
-import { StyleSheet, Dimensions, ScrollView, FlatList, View, Alert, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Dimensions, FlatList, View, Alert, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/core'
 import { Block, theme, Text, Button } from 'galio-framework';
-import FeatherIcons from 'react-native-vector-icons/Feather';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import React from 'react';
 import { auth } from '../firebaseConfig';
-import { signOut } from 'firebase/auth';
 import { Images } from '../constants';
 
 const { width } = Dimensions.get('screen');
 
 const data = [
   { title: "Attendance", icon: "calendar" },
-  { title: "Requests", icon: 'export' },
+  { title: "Request", icon: 'export' },
   { title: "PaySlip", icon: 'mail' },
   { title: "News", icon: 'profile' }
 ]
@@ -29,15 +28,8 @@ const CardBox = ({ item, navigation }) => {
 }
 const Home = () => {
   const navigation = useNavigation()
-
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        navigation.replace("Register")
-      })
-      .catch(error => alert(error.message))
-  }
   return (
+    // <SafeAreaView>
     <Block middle style={styles.home}>
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -78,6 +70,7 @@ const Home = () => {
         }
       />
     </Block>
+    // </SafeAreaView>
   )
 }
 
