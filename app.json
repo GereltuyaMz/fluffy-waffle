@@ -12,8 +12,13 @@
 		},
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
-			"supportsTablet": true
+			"supportsTablet": true,
+			"bundleIdentifier": "com.company.myapp",
+			"config": {
+				"googleMapsApiKey": "AIzaSyAmyQzH9wPx7Uod8qPe7nLjdR0h3HPGFwc"
+			}
 		},
-		"description": "Argon React Native, based on Argon Design System. Coded by Creative Tim"
+		"description": "Argon React Native, based on Argon Design System. Coded by Creative Tim",
+		"ios.bundleIdentifier": "com.company.myapp"
 	}
 }

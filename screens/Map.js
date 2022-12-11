@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MapView, { Marker } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { Block, theme, Button } from 'galio-framework';
 import { StyleSheet, View, Text } from 'react-native';
 import * as Location from 'expo-location';
@@ -34,7 +34,7 @@ const Map = () => {
   } else if (location) {
     text = JSON.stringify(location);
   }
-
+  console.log('mapRegion', mapRegion);
   return (
     <View style={styles.container}>
       <MapView
@@ -46,19 +46,21 @@ const Map = () => {
           longitudeDelta: 0.01,
         }}
         showsUserLocation
-        zoomTapEnabled
         showsMyLocationButton
+        provider={PROVIDER_GOOGLE}
       >
         <Marker coordinate={mapRegion} title='Your place' />
+        <Circle center={{ latitude: mapRegion.latitude, longitude: mapRegion.longitude }} radius={200} fillColor="#F1F6F5" strokeColor='#D6E4E5' />
       </MapView>
-      <Block row style={{ marginTop: 20, backgroundColor: '#fff' }} card middle>
-        <Button color="warning" onPress={() => Alert.alert('Arrived Time: 9:00 AM')}>
+      <Block row middle style={{ marginTop: 15 }}>
+        <Button color="info" onPress={() => Alert.alert('Arrived Time: 9:00 AM')}>
           ирсэн цаг
         </Button>
-        <Button color="success" onPress={() => Alert.alert('Leave Time: 6:00 PM')}>
+        <Button onPress={() => Alert.alert('Leave Time: 6:00 PM')}>
           явсан цаг
         </Button>
       </Block>
+      {/* <Text>{text} </Text> */}
     </View>
   )
 }
@@ -66,25 +68,16 @@ const Map = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
+    paddingVertical: 20
   },
   map: {
     width: '100%',
-    height: '80%',
-    position: 'relative'
+    height: '90%',
+    position: 'relative',
+    borderRadius: 35
   },
-  locationBtn: {
-    backgroundColor: '#fff',
-    width: 50,
-    borderRadius: 10,
-    shadowColor: theme.COLORS.BLACK,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 4,
-    shadowOpacity: 0.2,
-    elevation: 2,
-    position: 'absolute',
-    top: '40%',
-    right: 10
-  }
 });
 
 export default Map;
