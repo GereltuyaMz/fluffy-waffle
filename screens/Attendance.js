@@ -33,6 +33,31 @@ const Attendance = () => {
           <Block row style={styles.time} space="between">
             <Block>
               <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-in</Text>
+              <Text h5 color="white">09:10 AM</Text>
+            </Block>
+            <Block>
+              <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-out</Text>
+              <Text h5 color="white">17:00 PM</Text>
+            </Block>
+          </Block>
+          <Block row space='between' style={{ marginTop: 15 }}>
+            <Block row middle>
+              <EntypoIcons name="location-pin" size={20} color={'#fff'} />
+              <Text style={{ marginLeft: 6 }} size={11} color="white" bold>Central tower</Text>
+            </Block>
+            <Block row middle>
+              <AntDesignIcons name="checkcircle" color={'#fff'} size={16} />
+              <Text style={{ marginLeft: 6 }} size={11} color='white' bold>{hours}h {minutes}m</Text>
+            </Block>
+          </Block>
+        </ImageBackground>
+      </View>
+      <View>
+        <Text muted style={{ marginBottom: 10 }} size={17}>16 December, 2022</Text>
+        <ImageBackground source={require('./img/check-in-background.jpg')} resizeMode="cover" style={styles.backgroundImg} imageStyle={{ borderRadius: 10 }}>
+          <Block row style={styles.time} space="between">
+            <Block>
+              <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-in</Text>
               <Text h5 color="white">08:48 AM</Text>
             </Block>
             <Block>

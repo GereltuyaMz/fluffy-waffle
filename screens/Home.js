@@ -57,10 +57,12 @@ const Home = () => {
                 <Text style={{ textTransform: 'uppercase', fontWeight: 'bold', marginBottom: 7 }} size={11} muted>Welcome</Text>
                 <Text style={{ fontWeight: 'bold' }} size={16}>{auth.currentUser?.email}</Text>
               </View>
-              <Image
-                source={{ uri: Images.ProfilePicture }}
-                style={styles.avatar}
-              />
+              <TouchableOpacity onPress={() => navigation.navigate("Profile")}>
+                <Image
+                  source={{ uri: Images.ProfilePicture }}
+                  style={styles.avatar}
+                />
+              </TouchableOpacity>
             </View>
             <Block style={styles.calendar} middle>
               <Text h5>Calendar</Text>
@@ -166,10 +168,10 @@ const styles = StyleSheet.create({
     shadowColor: "#000000",
     shadowOffset: {
       width: 0,
-      height: 6,
+      height: 0,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 10.62,
+    shadowOpacity: 0.06,
+    shadowRadius: 7,
     elevation: 7
   },
   avatar: {

@@ -55,7 +55,7 @@ const Register = () => {
             behavior="padding"
             enabled
           >
-            <Block flex middle>
+            <Block middle style={{ marginTop: 30 }}>
               <Block width={width * 0.8} style={{ marginBottom: 30 }}>
                 <Text muted size={11}>Your Email</Text>
                 <Input
