@@ -1,3 +1,4 @@
+import React from "react";
 import { Animated, Dimensions, Easing } from "react-native";
 // header for screens
 import { Header, Icon } from "../components";
@@ -11,13 +12,15 @@ import Map from "../screens/Map";
 import Notification from "../screens/Notification";
 import NotificationDetail from "../screens/NotificationDetail";
 import Attendance from "../screens/Attendance";
-import React from "react";
 import Register from "../screens/Register";
 import All from "../screens/request/All";
 import Pending from "../screens/request/Pending";
 import Decline from "../screens/request/Decline";
+import News from "../screens/News";
+import NewsDetail from "../screens/NewsDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
@@ -132,6 +135,30 @@ function HomeStack() {
       <Stack.Screen
         name="Detail"
         component={NotificationDetail}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Detail"
+              navigation={navigation}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="News"
+        component={News}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="News"
+              navigation={navigation}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="NewsDetail"
+        component={NewsDetail}
         options={{
           header: ({ navigation, scene }) => (
             <Header

@@ -73,7 +73,7 @@ const Register = () => {
                   placeholder="Password"
                   value={password}
                   onChangeText={(text) => setPassword(text)}
-                  secureTextEntry={true}
+                  secureTextEntry
                 />
               </Block>
               <Block bottom>
