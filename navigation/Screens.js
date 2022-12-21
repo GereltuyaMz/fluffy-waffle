@@ -17,8 +17,10 @@ import All from "../screens/request/All";
 import Pending from "../screens/request/Pending";
 import Decline from "../screens/request/Decline";
 import News from "../screens/News";
+import NewsDetail from "../screens/NewsDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
@@ -149,6 +151,18 @@ function HomeStack() {
           header: ({ navigation, scene }) => (
             <Header
               title="News"
+              navigation={navigation}
+            />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name="NewsDetail"
+        component={NewsDetail}
+        options={{
+          header: ({ navigation, scene }) => (
+            <Header
+              title="Detail"
               navigation={navigation}
             />
           ),

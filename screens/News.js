@@ -3,10 +3,10 @@ import { StyleSheet, View, ImageBackground, TouchableOpacity, Image } from 'reac
 import { Block, Text } from 'galio-framework';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 
-const News = () => {
+const News = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate('NewsDetail')}>
         <Block row center style={styles.newsCard}>
           <Image source={require('./img/news.jpg')} style={styles.imageStyles} />
           <View style={{ width: 0, flexGrow: 1, flex: 1 }}>
