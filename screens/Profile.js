@@ -6,25 +6,16 @@ import {
   View,
   TouchableOpacity
 } from "react-native";
+import { useContext } from "react";
 import FeatherIcons from 'react-native-vector-icons/Feather';
 import { Block, Text, Button } from "galio-framework";
-import { useNavigation } from '@react-navigation/core'
-import { auth } from '../firebaseConfig';
-import { signOut } from 'firebase/auth';
+import { AuthContext } from "../navigation/AuthProvider";
 
 const { width, height } = Dimensions.get("screen");
 
 const Profile = () => {
-  const navigation = useNavigation()
+  const { logout } = useContext(AuthContext);
 
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        navigation.navigate("Register")
-        console.log('sign out');
-      })
-      .catch(error => alert(error.message))
-  }
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -71,7 +62,7 @@ const Profile = () => {
             </Block>
           </Block>
           <Block style={styles.logOut}>
-            <TouchableOpacity onPress={handleSignOut} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => logout()} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
               <View style={styles.outBtn}>
                 <FeatherIcons name="log-out" size={25} color="white" />
               </View>

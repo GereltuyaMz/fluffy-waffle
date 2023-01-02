@@ -20,7 +20,6 @@ import News from "../screens/News";
 import NewsDetail from "../screens/NewsDetail";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
@@ -50,6 +49,14 @@ function MapStack(props) {
   );
 }
 
+export const AuthStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name='Login' component={Register} options={{ header: () => null }} />
+    </Stack.Navigator>
+  )
+}
+
 function ProfileStack() {
   return (
     <Stack.Navigator
@@ -72,20 +79,6 @@ function ProfileStack() {
   );
 }
 
-export default function OnboardingStack() {
-  return (
-    <Stack.Navigator
-      initialRouteName="LogIn"
-      screenOptions={{ headerShown: false }}
-    >
-      <Stack.Screen
-        name="LogIn"
-        component={Register}
-      />
-      <Stack.Screen name="App" component={BottomStack} options={{ headerShown: false }} />
-    </Stack.Navigator>
-  );
-}
 
 function HomeStack() {
   return (
@@ -102,11 +95,6 @@ function HomeStack() {
             />
           ),
         }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={Register}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="Attendance"
@@ -172,7 +160,7 @@ function HomeStack() {
   );
 }
 
-function BottomStack() {
+export function BottomStack() {
   return (
     <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { paddingBottom: 6, paddingTop: 5, height: 60 } }} >
       <Tab.Screen name="HomeTab" component={HomeStack} options={{
