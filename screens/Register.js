@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useNavigation } from '@react-navigation/core'
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Dimensions,
@@ -9,8 +8,7 @@ import {
 import { Block, Text } from "galio-framework";
 import { Button, Input } from "../components";
 import { argonTheme } from "../constants";
-import { signInWithEmailAndPassword, onAuthStateChanged } from 'firebase/auth';
-import { auth } from "../firebaseConfig";
+import { AuthContext } from "../navigation/AuthProvider";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -18,26 +16,7 @@ const Register = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const navigation = useNavigation()
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
-      if (user) {
-        navigation.replace("App")
-      }
-    })
-
-    return unsubscribe
-  }, [])
-
-  const handleLogin = () => {
-    signInWithEmailAndPassword(auth, email, password)
-      .then(userCredentials => {
-        const user = userCredentials.user;
-        console.log('Logged in with:', user.email);
-      })
-      .catch(error => alert(error.message))
-  }
+  const { login } = useContext(AuthContext);
 
   return (
     <Block flex middle style={{ backgroundColor: '#fff' }}>
@@ -81,7 +60,7 @@ const Register = () => {
               </Block>
             </Block>
             <Block middle>
-              <Button color="info" style={styles.createButton} onPress={handleLogin}>
+              <Button color="info" style={styles.createButton} onPress={() => login(email, password)}>
                 <Text bold size={14} color={argonTheme.COLORS.WHITE}>
                   Log In
                 </Text>

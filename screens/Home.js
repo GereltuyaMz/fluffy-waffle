@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { StyleSheet, Dimensions, FlatList, View, Alert, TouchableOpacity, Image } from 'react-native';
 import { Block, theme, Text, Button } from 'galio-framework';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/core'
+// import { useNavigation } from '@react-navigation/core'
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
 import IonIcons from "react-native-vector-icons/Ionicons";
@@ -29,8 +29,8 @@ const CardBox = ({ item, navigation }) => {
   )
 }
 
-const Home = () => {
-  const navigation = useNavigation();
+const Home = ({ navigation }) => {
+  // const navigation = useNavigation();
   const [visible, setVisible] = useState(false);
   const [endTime, setEndTime] = useState(false);
 
