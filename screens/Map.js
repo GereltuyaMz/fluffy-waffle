@@ -7,10 +7,15 @@ import IonIcons from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
 
 const Map = () => {
-  const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [visible, setVisible] = useState(false);
   const [endTime, setEndTime] = useState(false);
+  const [mapRegion, setMapRegion] = useState({
+    latitude: 47.91584816859115,
+    longitude: 106.91856159183534,
+    latitudeDelta: 0.01,
+    longitudeDelta: 0.01,
+  });
 
   const toggleAlert = useCallback(() => {
     setVisible(!visible);
@@ -20,50 +25,39 @@ const Map = () => {
     setEndTime(!endTime);
   }, [endTime]);
 
-  const [mapRegion, setMapRegion] = useState({
-    latitude: 47.91584816859115,
-    longitude: 106.91856159183534,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
-  });
+
 
   const currentDate = new Date().toLocaleString();
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
-        return;
-      }
+  const userLocation = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setErrorMsg('Permission to access location has denied');
+    }
+    let location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true });
+    setMapRegion({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    })
+  }
 
-      let location = await Location.getCurrentPositionAsync({});
-      setLocation(JSON.stringify(location));
-      setMapRegion({ latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.01, longitudeDelta: 0.01 })
-    })();
+  useEffect(() => {
+    userLocation();
   }, [])
 
-  let text = 'Waiting..';
-  if (errorMsg) {
-    text = errorMsg;
-  } else if (location) {
-    text = JSON.stringify(location);
-  }
   return (
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        region={{
-          latitude: 47.91584816859115,
-          longitude: 106.91856159183534,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01,
-        }}
+        initialRegion={mapRegion}
         showsUserLocation
         showsMyLocationButton
         provider={PROVIDER_GOOGLE}
       >
         <Marker coordinate={mapRegion} title='Your place' />
+
         <Circle center={{ latitude: mapRegion.latitude, longitude: mapRegion.longitude }} radius={200} fillColor="#F1F6F5" strokeColor='#D6E4E5' />
       </MapView>
       <Block row middle style={{ marginTop: 15 }}>
@@ -74,6 +68,7 @@ const Map = () => {
           явсан цаг
         </Button>
       </Block>
+      {/* Alert component */}
       <FancyAlert
         visible={visible}
         icon={<View style={{

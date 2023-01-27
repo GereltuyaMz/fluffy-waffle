@@ -18,11 +18,11 @@ export const AuthProvider = ({ children }) => {
             await signInWithEmailAndPassword(auth, email, password)
               .then((userCredentials) => {
                 const user = userCredentials.user;
-                console.log("user", user)
+                // console.log("user", user)
                 const add = setDoc(doc(db, "users", auth.currentUser?.uid), {
                   email: email
                 })
-                console.log('add', add);
+                // console.log('add', add);
               })
           } catch (error) {
             console.log('something is wrong', error);

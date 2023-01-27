@@ -20,7 +20,6 @@ const Routes = () => {
   }, [])
 
   if (initializing) return null;
-  console.log('user status', user);
   return (
     <NavigationContainer>
       {user ? <BottomStack /> : <AuthStack />}
