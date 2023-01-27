@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
-import { Block, theme, Button } from 'galio-framework';
+import { Block, Button } from 'galio-framework';
 import { FancyAlert } from 'react-native-expo-fancy-alerts';
 import IonIcons from "react-native-vector-icons/Ionicons";
 import * as Location from 'expo-location';
@@ -24,8 +24,6 @@ const Map = () => {
   const toggleEndTime = useCallback(() => {
     setEndTime(!endTime);
   }, [endTime]);
-
-
 
   const currentDate = new Date().toLocaleString();
 
@@ -71,35 +69,19 @@ const Map = () => {
       {/* Alert component */}
       <FancyAlert
         visible={visible}
-        icon={<View style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#1363DF',
-          borderRadius: 50,
-          width: '100%',
-        }}><IonIcons name="log-in-outline" size={40} color="#fff" /></View>}
+        icon={<View style={styles.arriveIcon}><IonIcons name="log-in-outline" size={40} color="#fff" /></View>}
         style={{ backgroundColor: 'white' }}
       >
-        <Text style={{ marginBottom: 20 }}>You arrived at: {currentDate}</Text>
-        <Button style={{ marginBottom: 25 }} color="info" onPress={toggleAlert}>Close</Button>
+        <Text>You arrived at: {currentDate}</Text>
+        <Button style={styles.button} color="info" onPress={toggleAlert}>Close</Button>
       </FancyAlert>
       <FancyAlert
         visible={endTime}
-        icon={<View style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#5E72E4',
-          borderRadius: 50,
-          width: '100%',
-        }}><IonIcons name="log-out-outline" size={40} color="#fff" /></View>}
+        icon={<View style={styles.leftIcon}><IonIcons name="log-out-outline" size={40} color="#fff" /></View>}
         style={{ backgroundColor: 'white' }}
       >
-        <Text style={{ marginBottom: 20 }}>You left at: {currentDate}</Text>
-        <Button style={{ marginBottom: 25 }} onPress={toggleEndTime}>Close</Button>
+        <Text>You left at: {currentDate}</Text>
+        <Button style={styles.button} onPress={toggleEndTime}>Close</Button>
       </FancyAlert>
     </View>
   )
@@ -118,6 +100,28 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderRadius: 35
   },
+  arriveIcon: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#1363DF',
+    borderRadius: 50,
+    width: '100%',
+  },
+  leftIcon: {
+    flex: 1,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#5E72E4',
+    borderRadius: 50,
+    width: '100%',
+  },
+  button: {
+    marginBottom: 25,
+    marginTop: 20
+  }
 });
 
 export default Map;
