@@ -1,20 +1,22 @@
 import {
   StyleSheet,
-  Dimensions,
   ScrollView,
   Image,
   View,
-  TouchableOpacity
+  TouchableOpacity,
 } from "react-native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import FeatherIcons from 'react-native-vector-icons/Feather';
 import { Block, Text, Button } from "galio-framework";
 import { AuthContext } from "../navigation/AuthProvider";
-
-const { width, height } = Dimensions.get("screen");
+import { EditProfile } from "../components/EditProfile";
 
 const Profile = () => {
   const { logout } = useContext(AuthContext);
+  const [edit, setEdit] = useState(false);
+  const handleProfile = () => {
+    setEdit(!edit);
+  }
 
   return (
     <ScrollView
@@ -33,43 +35,54 @@ const Profile = () => {
               <FeatherIcons name="camera" size={17} color="white" />
             </View>
           </View>
-          <Text bold size={20} style={{ marginTop: 18 }}>Jessica Jones</Text>
-          <Button color="info" style={styles.editBtn}>Edit Profile</Button>
+          <Text bold size={20} style={{ marginTop: 18 }}>Сарангэрэл</Text>
+          <Button color="info" style={styles.editBtn} onPress={handleProfile}>Профайл засах</Button>
         </Block>
-        <Block style={styles.userInfo}>
-          <Block style={styles.generalInfo}>
-            <Block row space="between" style={styles.divider}>
-              <Text bold>Email:</Text>
-              <Text muted>gegiimz96@gmail.com</Text>
+        {edit ? (
+          <EditProfile />
+        ) :
+          (<Block style={styles.userInfo}>
+            <Block style={styles.generalInfo}>
+              <Block row space="between" style={styles.divider}>
+                <Text bold>Имэйл:</Text>
+                <Text muted>saraa61@gmail.com</Text>
+              </Block>
+              <Block row space="between" style={styles.divider}>
+                <Text bold>Төрсөн огноо:</Text>
+                <Text muted>18.03.1996</Text>
+              </Block>
+              <Block row space="between" style={styles.divider}>
+                <Text bold>Утас:</Text>
+                <Text muted>99098978</Text>
+              </Block>
             </Block>
-            <Block row space="between" style={styles.divider}>
-              <Text bold>Date Of Birth:</Text>
-              <Text muted>18.03.1996</Text>
+            <Block style={styles.generalInfo}>
+              <Block row space="between" style={styles.divider}>
+                <Text bold>Салбар:</Text>
+                <Text muted>Central Tower</Text>
+              </Block>
+              <Block row space="between" style={styles.divider}>
+                <Text bold>Албан тушаал:</Text>
+                <Text muted>Accountant</Text>
+              </Block>
             </Block>
-            <Block row space="between" style={styles.divider}>
-              <Text bold>Phone:</Text>
-              <Text muted>99098978</Text>
+            <Block style={styles.generalInfo}>
+              <Block row space="between" style={styles.divider}>
+                <Text bold>Гэрээ:</Text>
+                <Text muted>pdf</Text>
+              </Block>
             </Block>
-          </Block>
-          <Block style={styles.generalInfo}>
-            <Block row space="between" style={styles.divider}>
-              <Text bold>Branch:</Text>
-              <Text muted>Central Tower</Text>
+            <Block style={styles.logOut}>
+              <TouchableOpacity onPress={() => logout()} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <View style={styles.outBtn}>
+                  <FeatherIcons name="log-out" size={25} color="white" />
+                </View>
+                <Text size={17} muted>Гарах</Text>
+              </TouchableOpacity>
             </Block>
-            <Block row space="between" style={styles.divider}>
-              <Text bold>Position:</Text>
-              <Text muted>Accountant</Text>
-            </Block>
-          </Block>
-          <Block style={styles.logOut}>
-            <TouchableOpacity onPress={() => logout()} style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-              <View style={styles.outBtn}>
-                <FeatherIcons name="log-out" size={25} color="white" />
-              </View>
-              <Text size={17} muted>Log Out</Text>
-            </TouchableOpacity>
-          </Block>
-        </Block>
+          </Block>)
+        }
+
       </Block>
     </ScrollView>
   )
@@ -90,7 +103,6 @@ const styles = StyleSheet.create({
     bottom: 0
   },
   editBtn: {
-    width: width * 0.27,
     marginTop: 15,
     borderRadius: 20
   },
@@ -129,7 +141,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 20,
     paddingVertical: 12
-  }
+  },
+  input: {
+    margin: 12,
+    borderWidth: 1,
+    padding: 5,
+    width: 200
+  },
 });
 
 export default Profile;
