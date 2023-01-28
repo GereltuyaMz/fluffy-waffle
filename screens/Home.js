@@ -32,6 +32,7 @@ const Home = ({ navigation }) => {
   const [left, setLeft] = useState(false);
   const arriveDate = new Date().toLocaleString();
   const leftDate = new Date().toLocaleString();
+
   return (
     <Block middle style={styles.home}>
       <FlatList
@@ -76,6 +77,7 @@ const Home = ({ navigation }) => {
       />
       {arrive && <TimeAlert setVisible={setArrive} visible={arrive} status='Ирсэн цаг' currentDate={arriveDate} />}
       {left && <TimeAlert setVisible={setLeft} visible={left} status='Явсан цаг' currentDate={leftDate} />}
+
     </Block>
   )
 }
@@ -83,7 +85,7 @@ const Home = ({ navigation }) => {
 const styles = StyleSheet.create({
   home: {
     width: width,
-    backgroundColor: '#EFEFEF'
+    backgroundColor: '#EFEFEF',
   },
   articles: {
     width: width - theme.SIZES.BASE * 2,
