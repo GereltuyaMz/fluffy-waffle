@@ -1,82 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, View, ImageBackground } from 'react-native';
-import { Block, Text } from 'galio-framework';
-import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-import EntypoIcons from "react-native-vector-icons/Entypo";
+import { StyleSheet } from 'react-native';
+import { Block } from 'galio-framework';
+import { intervalToDuration } from 'date-fns';
+import { AttendanceCard } from '../components/AttendanceCard';
 
-const Attendance = () => {
-  const [hours, setHours] = useState('');
-  const [minutes, setMinutes] = useState('');
+const Attendance = ({ route }) => {
+  // const { arriveDate, leftDate } = route.params;
+  const arriveDate = new Date();
+  const leftDate = new Date();
+  // console.log('arrive', typeof format(arriveDate, 'kk:mm'));
+  // console.log('leftDate', leftDate);
 
-  const timedif = () => {
-    const start = "09:10".split(":");
-    const end = "17:00".split(":");
-    const startTime = new Date(0, 0, 0, start[0], start[1], 0);
-    const endTime = new Date(0, 0, 0, end[0], end[1], 0);
-    let diff = endTime.getTime() - startTime.getTime();
-    const hours = Math.floor(diff / 1000 / 60 / 60);
-    diff -= hours * 1000 * 60 * 60;
-    const minutes = Math.floor(diff / 1000 / 60);
-    setHours(hours);
-    setMinutes(minutes);
-  }
+  const duration = intervalToDuration({
+    start: new Date(0, 0, 0, 11, 35, 0, 0),
+    end: new Date(0, 0, 0, 18, 40, 0, 0)
+  })
 
-  useEffect(() => {
-    timedif();
-  }, [])
-
+  // console.log(duration);
   return (
     <Block style={styles.container}>
-      <View>
-        <Text muted style={{ marginBottom: 10 }} size={17}>15 December, 2022</Text>
-        <ImageBackground source={require('./img/check-in-background.jpg')} resizeMode="cover" style={styles.backgroundImg} imageStyle={{ borderRadius: 10 }}>
-          <Block row style={styles.time} space="between">
-            <Block>
-              <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-in</Text>
-              <Text h5 color="white">09:10 AM</Text>
-            </Block>
-            <Block>
-              <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-out</Text>
-              <Text h5 color="white">17:00 PM</Text>
-            </Block>
-          </Block>
-          <Block row space='between' style={{ marginTop: 15 }}>
-            <Block row middle>
-              <EntypoIcons name="location-pin" size={20} color={'#fff'} />
-              <Text style={{ marginLeft: 6 }} size={11} color="white" bold>Central tower</Text>
-            </Block>
-            <Block row middle>
-              <AntDesignIcons name="checkcircle" color={'#fff'} size={16} />
-              <Text style={{ marginLeft: 6 }} size={11} color='white' bold>{hours}h {minutes}m</Text>
-            </Block>
-          </Block>
-        </ImageBackground>
-      </View>
-      <View>
-        <Text muted style={{ marginBottom: 10 }} size={17}>16 December, 2022</Text>
-        <ImageBackground source={require('./img/check-in-background.jpg')} resizeMode="cover" style={styles.backgroundImg} imageStyle={{ borderRadius: 10 }}>
-          <Block row style={styles.time} space="between">
-            <Block>
-              <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-in</Text>
-              <Text h5 color="white">08:48 AM</Text>
-            </Block>
-            <Block>
-              <Text size={12} color="white" style={{ marginRight: 15, marginBottom: 7 }}>Check-out</Text>
-              <Text h5 color="white">05:30 PM</Text>
-            </Block>
-          </Block>
-          <Block row space='between' style={{ marginTop: 15 }}>
-            <Block row middle>
-              <EntypoIcons name="location-pin" size={20} color={'#fff'} />
-              <Text style={{ marginLeft: 6 }} size={11} color="white" bold>Central tower</Text>
-            </Block>
-            <Block row middle>
-              <AntDesignIcons name="checkcircle" color={'#fff'} size={16} />
-              <Text style={{ marginLeft: 6 }} size={11} color='white' bold>{hours}h {minutes}m</Text>
-            </Block>
-          </Block>
-        </ImageBackground>
-      </View>
+      <AttendanceCard arriveDate={arriveDate} leftDate={leftDate} duration={duration} />
     </Block>
   )
 }
@@ -87,11 +29,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: '100%'
   },
-  backgroundImg: {
-    justifyContent: 'center',
-    height: 115,
-    paddingHorizontal: 30,
-    marginBottom: 20,
-  },
 });
-export default Attendance
+
+export default Attendance;

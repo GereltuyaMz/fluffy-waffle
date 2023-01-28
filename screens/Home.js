@@ -1,13 +1,11 @@
-import React, { useState, useCallback } from 'react';
-import { StyleSheet, Dimensions, FlatList, View, Alert, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Dimensions, FlatList, View, TouchableOpacity, Image } from 'react-native';
 import { Block, theme, Text, Button } from 'galio-framework';
-import { SafeAreaView } from 'react-native-safe-area-context';
-// import { useNavigation } from '@react-navigation/core'
-import { FancyAlert } from 'react-native-expo-fancy-alerts';
 import AntDesignIcons from 'react-native-vector-icons/AntDesign';
-import IonIcons from "react-native-vector-icons/Ionicons";
 import { auth } from '../firebaseConfig';
 import { Images } from '../constants';
+import { TimeAlert } from '../components/Alert';
+import { parseISO, parse } from 'date-fns';
 
 const { width } = Dimensions.get('screen');
 
@@ -18,7 +16,7 @@ const data = [
   { title: "News", icon: 'profile' }
 ]
 
-const CardBox = ({ item, navigation }) => {
+const CardBox = ({ item, navigation, arriveDate, leftDate }) => {
   return (
     <TouchableOpacity onPress={() => navigation.navigate(item.title)} activeOpacity={1}>
       <Block style={[styles.card, styles.shadow]} middle>
@@ -30,22 +28,11 @@ const CardBox = ({ item, navigation }) => {
 }
 
 const Home = ({ navigation }) => {
-  // const navigation = useNavigation();
-  const [visible, setVisible] = useState(false);
-  const [endTime, setEndTime] = useState(false);
-
-  const toggleAlert = useCallback(() => {
-    setVisible(!visible);
-  }, [visible]);
-
-  const toggleEndTime = useCallback(() => {
-    setEndTime(!endTime);
-  }, [endTime]);
-
-  const currentDate = new Date().toLocaleString();
-
+  const [arrive, setArrive] = useState(false);
+  const [left, setLeft] = useState(false);
+  const arriveDate = new Date().toLocaleString();
+  const leftDate = new Date().toLocaleString();
   return (
-    // <SafeAreaView>
     <Block middle style={styles.home}>
       <FlatList
         showsVerticalScrollIndicator={false}
@@ -71,56 +58,25 @@ const Home = ({ navigation }) => {
         }
         data={data}
         renderItem={({ item }) => (
-          <CardBox item={item} style={{ margin: 5 }} navigation={navigation} />
+          <CardBox item={item} style={{ margin: 5 }} navigation={navigation} arriveDate={arriveDate} leftDate={leftDate} />
         )}
         keyExtractor={(item, index) => index}
         numColumns={2}
         columnWrapperStyle={{ justifyContent: 'space-around' }}
         ListFooterComponent={
           <Block row style={styles.time} card>
-            <Button color="info" onPress={toggleAlert}>
+            <Button color="info" onPress={() => setArrive(true)}>
               ирсэн цаг
             </Button>
-            <Button onPress={toggleEndTime}>
+            <Button color='primary' onPress={() => setLeft(true)}>
               явсан цаг
             </Button>
           </Block>
         }
       />
-      <FancyAlert
-        visible={visible}
-        icon={<View style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#1363DF',
-          borderRadius: 50,
-          width: '100%',
-        }}><IonIcons name="log-in-outline" size={40} color="#fff" /></View>}
-        style={{ backgroundColor: 'white' }}
-      >
-        <Text style={{ marginBottom: 20 }}>You arrived at: {currentDate}</Text>
-        <Button style={{ marginBottom: 25 }} color="info" onPress={toggleAlert}>Close</Button>
-      </FancyAlert>
-      <FancyAlert
-        visible={endTime}
-        icon={<View style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#5E72E4',
-          borderRadius: 50,
-          width: '100%',
-        }}><IonIcons name="log-out-outline" size={40} color="#fff" /></View>}
-        style={{ backgroundColor: 'white' }}
-      >
-        <Text style={{ marginBottom: 20 }}>You left at: {currentDate}</Text>
-        <Button style={{ marginBottom: 25 }} onPress={toggleEndTime}>Close</Button>
-      </FancyAlert>
+      {arrive && <TimeAlert setVisible={setArrive} visible={arrive} status='Ирсэн цаг' currentDate={arriveDate} />}
+      {left && <TimeAlert setVisible={setLeft} visible={left} status='Явсан цаг' currentDate={leftDate} />}
     </Block>
-    // </SafeAreaView>
   )
 }
 

@@ -2,30 +2,19 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE, Circle } from 'react-native-maps';
 import { Block, Button } from 'galio-framework';
-import { FancyAlert } from 'react-native-expo-fancy-alerts';
-import IonIcons from "react-native-vector-icons/Ionicons";
+import { TimeAlert } from '../components/Alert';
 import * as Location from 'expo-location';
 
 const Map = () => {
   const [errorMsg, setErrorMsg] = useState(null);
-  const [visible, setVisible] = useState(false);
-  const [endTime, setEndTime] = useState(false);
+  const [arrive, setArrive] = useState(false);
+  const [left, setLeft] = useState(false);
   const [mapRegion, setMapRegion] = useState({
     latitude: 47.91584816859115,
     longitude: 106.91856159183534,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   });
-
-  const toggleAlert = useCallback(() => {
-    setVisible(!visible);
-  }, [visible]);
-
-  const toggleEndTime = useCallback(() => {
-    setEndTime(!endTime);
-  }, [endTime]);
-
-  const currentDate = new Date().toLocaleString();
 
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -44,7 +33,6 @@ const Map = () => {
   useEffect(() => {
     userLocation();
   }, [])
-
   return (
     <View style={styles.container}>
       <MapView
@@ -59,30 +47,15 @@ const Map = () => {
         <Circle center={{ latitude: mapRegion.latitude, longitude: mapRegion.longitude }} radius={200} fillColor="#F1F6F5" strokeColor='#D6E4E5' />
       </MapView>
       <Block row middle style={{ marginTop: 15 }}>
-        <Button color="info" onPress={toggleAlert}>
+        <Button color="info" onPress={() => setArrive(true)}>
           ирсэн цаг
         </Button>
-        <Button onPress={toggleEndTime}>
+        <Button color='primary' onPress={() => setLeft(true)}>
           явсан цаг
         </Button>
       </Block>
-      {/* Alert component */}
-      <FancyAlert
-        visible={visible}
-        icon={<View style={styles.arriveIcon}><IonIcons name="log-in-outline" size={40} color="#fff" /></View>}
-        style={{ backgroundColor: 'white' }}
-      >
-        <Text>You arrived at: {currentDate}</Text>
-        <Button style={styles.button} color="info" onPress={toggleAlert}>Close</Button>
-      </FancyAlert>
-      <FancyAlert
-        visible={endTime}
-        icon={<View style={styles.leftIcon}><IonIcons name="log-out-outline" size={40} color="#fff" /></View>}
-        style={{ backgroundColor: 'white' }}
-      >
-        <Text>You left at: {currentDate}</Text>
-        <Button style={styles.button} onPress={toggleEndTime}>Close</Button>
-      </FancyAlert>
+      {arrive && <TimeAlert setVisible={setArrive} visible={arrive} status='Ирсэн цаг' location={{ latitude: mapRegion.latitude, longitude: mapRegion.longitude }} />}
+      {left && <TimeAlert setVisible={setLeft} visible={left} status='Явсан цаг' location={{ latitude: mapRegion.latitude, longitude: mapRegion.longitude }} />}
     </View>
   )
 }
@@ -100,28 +73,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     borderRadius: 35
   },
-  arriveIcon: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1363DF',
-    borderRadius: 50,
-    width: '100%',
-  },
-  leftIcon: {
-    flex: 1,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#5E72E4',
-    borderRadius: 50,
-    width: '100%',
-  },
-  button: {
-    marginBottom: 25,
-    marginTop: 20
-  }
 });
 
 export default Map;

@@ -1,8 +1,6 @@
 import React from "react";
-import { Animated, Dimensions, Easing } from "react-native";
 // header for screens
-import { Header, Icon } from "../components";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Header } from "../components";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 // screens
@@ -28,7 +26,7 @@ const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const TopTab = createMaterialTopTabNavigator();
 
-function MapStack(props) {
+function MapStack() {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -75,6 +73,14 @@ function ProfileStack() {
           ),
         }}
       />
+      <Stack.Screen
+        name="Notification"
+        component={Notification}
+      />
+      <Stack.Screen
+        name="Detail"
+        component={NotificationDetail}
+      />
     </Stack.Navigator>
   );
 }
@@ -100,61 +106,22 @@ function HomeStack() {
         name="Attendance"
         component={Attendance}
       />
-      <Stack.Screen name="Request" component={TopStack} options={{
-        header: ({ navigation, scene }) => (
-          <Header
-            title="Request"
-            navigation={navigation}
-          />
-        ),
-      }} />
+      <Stack.Screen name="Request" component={TopStack} />
       <Stack.Screen
         name="Notification"
         component={Notification}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title="Notification"
-              navigation={navigation}
-            />
-          ),
-        }}
       />
       <Stack.Screen
         name="Detail"
         component={NotificationDetail}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title="Detail"
-              navigation={navigation}
-            />
-          ),
-        }}
       />
       <Stack.Screen
         name="News"
         component={News}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title="News"
-              navigation={navigation}
-            />
-          ),
-        }}
       />
       <Stack.Screen
         name="NewsDetail"
         component={NewsDetail}
-        options={{
-          header: ({ navigation, scene }) => (
-            <Header
-              title="Detail"
-              navigation={navigation}
-            />
-          ),
-        }}
       />
     </Stack.Navigator>
   );
@@ -162,7 +129,7 @@ function HomeStack() {
 
 export function BottomStack() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { paddingBottom: 6, paddingTop: 5, height: 60 } }} >
+    <Tab.Navigator screenOptions={{ headerShown: false }} >
       <Tab.Screen name="HomeTab" component={HomeStack} options={{
         tabBarLabel: 'Home',
         tabBarIcon: ({ color, size }) => (
@@ -181,7 +148,7 @@ export function BottomStack() {
           <AntDesignIcons name="user" color={color} size={size} />
         ),
       }} />
-    </Tab.Navigator>
+    </ Tab.Navigator>
   )
 }
 
